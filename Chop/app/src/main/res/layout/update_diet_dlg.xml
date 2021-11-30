@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/menutv"
+        style="@style/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="메뉴"
+        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/menuEdit"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:hint=" ex) 제육볶음, 한정식"
+        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/menutv" />
+
+    <TextView
+        android:id="@+id/caltv"
+        style="@style/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="칼로리(kcal)"
+        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/menuEdit" />
+
+    <EditText
+        android:id="@+id/calEdit"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:hint=" ex) 식사의 열량을 kcal단위로 입력"
+        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@id/caltv" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="46dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

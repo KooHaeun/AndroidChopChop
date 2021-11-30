@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/main</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+    <style name="title">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="main_title">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="text">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+    <style name="img_text">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="btn_text">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="dialog_text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="mainBtn">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@color/main</item>
+        <item name="android:fontFamily">@font/maruburi</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/main</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+</resources>
