@@ -1,6 +1,9 @@
 package com.example.chop;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -26,11 +29,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -55,33 +60,45 @@ public class ResultActivity extends AppCompatActivity {
 
         text_home.setText(date);
         change.moveToFirst();
-        pic_tv.setText("눈바디 "+change.getString(2)+"kg");
-        File file_ = new File(change.getString(1));
-        Bitmap bitmap_ = null;
-        try {
-            bitmap_ = MediaStore.Images.Media
-                    .getBitmap(getContentResolver(), Uri.fromFile(file_));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (bitmap_ != null) {
-            pic.setImageBitmap(bitmap_);
-        }
-
+        if(change.getCount()!=0){
+            pic_tv.setText("눈바디 "+change.getString(2)+"kg");
+            File file_ = new File(change.getString(1));
+            Uri fileUri = Uri.fromFile(file_);
+            Bitmap bitmap=null;
+            ContentResolver resolver = getContentResolver();
+            try {
+            InputStream instream = resolver.openInputStream(fileUri);
+            bitmap = BitmapFactory.decodeStream(instream);
+            if (bitmap != null) {
+                pic.setImageBitmap(bitmap);
+            }
+            instream.close();
+            } catch (Exception e) {
+            }
+        } else
+            pic_tv.setText("변화를 기록해주세요");
         diet.moveToFirst();
         while (!diet.isAfterLast()) {
             File file = new File(diet.getString(3));
-            Bitmap bitmap = null;
+            Uri fileUri = Uri.fromFile(file);
+            Bitmap bitmap=null;
+            ContentResolver resolver = getContentResolver();
             try {
-                bitmap = MediaStore.Images.Media
-                        .getBitmap(getContentResolver(), Uri.fromFile(file));
-            } catch (IOException e) {
-                e.printStackTrace();
+                InputStream instream = resolver.openInputStream(fileUri);
+                bitmap = BitmapFactory.decodeStream(instream);
+                instream.close();
+            } catch (Exception e) {
             }
             if(diet.getString(4).equals("아침")){
                 morning.setText(diet.getString(5)+" "+diet.getInt(6)+"kcal");
-                if (bitmap != null) {
-                    morning_pic.setImageBitmap(bitmap);
+                try {
+                    InputStream instream = resolver.openInputStream(fileUri);
+                    bitmap = BitmapFactory.decodeStream(instream);
+                    if (bitmap != null) {
+                        morning_pic.setImageBitmap(bitmap);
+                    }
+                    instream.close();
+                } catch (Exception e) {
                 }
             }else if(diet.getString(4).equals("점심")){
                 lunch.setText(diet.getString(5)+" "+diet.getInt(6)+"kcal");
@@ -117,6 +134,7 @@ public class ResultActivity extends AppCompatActivity {
         date = i.getStringExtra("date");
         diet = db.rawQuery("select * from DIET WHERE date =='"+date+"';", null);
         change = db.rawQuery("select * from CHANGE WHERE date =='"+date+"';", null);
+        Log.d("TAG", date);
         date = "- "+date.substring(0, 4)+"년 "+date.substring(4, 6)+"월 "+date.substring(6)+"일 -";
         text_home = findViewById(R.id.text_home);
         pic_tv = findViewById(R.id.pic_tv);

@@ -11,16 +11,21 @@
     android:orientation="vertical"
     tools:openDrawer="start">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
-
-        <include
-            android:id="@+id/bar"
-            layout="@layout/back_bar"
+    <ScrollView
+            app:layout_constraintTop_toBottomOf="@id/text_home"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/bar"
+                    layout="@layout/back_bar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_home"
@@ -57,35 +62,6 @@
             app:layout_constraintTop_toBottomOf="@id/mealTimetv" />
 
         <TextView
-            android:id="@+id/pictureTv"
-            style="@style/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="24dp"
-            android:text="식사사진"
-            app:layout_constraintLeft_toLeftOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/mealTimebtn" />
-
-        <Button
-            android:id="@+id/pictureBtn"
-            style="@style/btn_text"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@color/main"
-            android:text="업로드"
-            app:layout_constraintLeft_toLeftOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/pictureTv" />
-        <ImageView
-            android:id="@+id/menuImg"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="25dp"
-            app:layout_constraintLeft_toLeftOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/mealTimebtn"/>
-
-        <TextView
             android:id="@+id/sortTv"
             style="@style/text"
             android:layout_width="wrap_content"
@@ -93,7 +69,7 @@
             android:layout_marginTop="25dp"
             android:text="유형"
             app:layout_constraintLeft_toLeftOf="@id/guideline2"
-            app:layout_constraintTop_toBottomOf="@id/pictureBtn" />
+            app:layout_constraintTop_toBottomOf="@id/mealTimebtn" />
 
         <TextView
             android:id="@+id/sortExplain"
@@ -152,14 +128,42 @@
             android:hint=" ex) 식사의 열량을 kcal단위로 입력"
             app:layout_constraintLeft_toLeftOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@id/caltv" />
+        <TextView
+            android:id="@+id/pictureTv"
+            style="@style/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="24dp"
+            android:text="식사사진"
+            app:layout_constraintLeft_toLeftOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/calEdit" />
+        <Button
+            android:id="@+id/pictureBtn"
+            style="@style/btn_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/main"
+            android:text="업로드"
+            app:layout_constraintLeft_toLeftOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/pictureTv" />
+        <ImageView
+            android:id="@+id/menuImg"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintLeft_toLeftOf="@id/guideline2"
+            app:layout_constraintTop_toBottomOf="@id/calEdit"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/saveBtn"
             android:layout_width="340dp"
             android:layout_height="55dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginTop="100dp"
             android:text="저장"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pictureTv"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -178,6 +182,7 @@
             app:layout_constraintGuide_begin="365dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nDrawer"
         android:layout_width="wrap_content"

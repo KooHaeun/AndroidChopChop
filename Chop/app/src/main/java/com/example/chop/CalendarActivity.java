@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
+import static java.lang.Boolean.TRUE;
+
 public class CalendarActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -115,35 +117,28 @@ public class CalendarActivity extends AppCompatActivity {
          });
        
         cal.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
-        if(usecal==1) {
-
-            //칼로리 제한 지킨 날
+        if(usecal==1) {//칼로리 제한 지킨 날
             try {
                 getLimitDay();
+                Log.d("limitDay", String.valueOf(limitDay.size()));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             for(int i=0; i<limitDay.size();i++) {
-
-                Log.d("limitDay", String.valueOf(limitDay.size()));
                 int finalI = i;
                 cal.addDecorator(new DayViewDecorator() {
                     Calendar customDay = Calendar.getInstance();
                     Calendar keepDay = Calendar.getInstance();
-
                     @Override
                     public boolean shouldDecorate(CalendarDay day) {
-
                         try {
                             customDay.setTime(yearFormat.parse(yearFormat.format(day.getCalendar().getTime())));
                             keepDay.setTime(yearFormat.parse(limitDay.get(finalI)));
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
                         return customDay.compareTo(keepDay) == 0;
                     }
-
                     @Override
                     public void decorate(DayViewFacade view) {
                         view.addSpan(new ForegroundColorSpan(Color.BLUE) {
@@ -159,9 +154,11 @@ public class CalendarActivity extends AppCompatActivity {
         Cursor c = db.rawQuery("SELECT * FROM DIET", null);
         String s = "";
         c.moveToFirst();
+        if(!(c.getString(1).equals(""))) {
+            s = c.getString(1);
+        }
         for(int i=0; i<c.getCount(); i++){
-            if(!(c.getString(1).equals(s))||c.getColumnCount()-1==i){
-                Log.d("limitDay", s);
+            if(!(c.getString(1).equals(s))||c.isLast()==TRUE){
                 if(!s.equals("")) {
                     if (dayCal <= limit) {
                         limitDay.add(s);

@@ -14,6 +14,7 @@ public class ChopChopDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_MYCAL);
+        db.execSQL("CREATE TABLE IF NOT EXISTS DIET(num INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, time TEXT, picPATH TEXT, sort INTEGER, menu TEXT, kcal INTEGER);");
         db.execSQL("CREATE TABLE IF NOT EXISTS CHANGE(date TEXT PRIMARY KEY, picPATH TEXT, weight TEXT, waist TEXT, thigh TEXT);");
         db.execSQL("INSERT INTO MYCAL(use, cal) values (0, 0);");
     }

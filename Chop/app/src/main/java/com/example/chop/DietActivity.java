@@ -2,6 +2,7 @@ package com.example.chop;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,8 +37,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -70,6 +73,7 @@ public class DietActivity extends AppCompatActivity {//완료
         pictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                menuImg.setVisibility(View.VISIBLE);
                 setPicPath();//사진선택
             }
         });
@@ -81,6 +85,14 @@ public class DietActivity extends AppCompatActivity {//완료
                 dietSave();//DB에 저장
             }
         });
+
+        menuImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setPicPath();
+            }
+        });
+
 
     }
 
@@ -153,9 +165,6 @@ public class DietActivity extends AppCompatActivity {//완료
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, 1);
                 try {
-                    picPATH = getCacheDir() + "/" + picPATH;   // 내부 저장소에 저장되어 있는 이미지 경로
-                    Bitmap bm = BitmapFactory.decodeFile(picPATH);
-                    menuImg.setImageBitmap(bm);   // 내부 저장소에 저장된 이미지를 이미지뷰에 셋
                     pictureBtn.setVisibility(View.GONE);
                     pictureTv.setVisibility(View.INVISIBLE);
                 } catch (Exception e) {
@@ -185,13 +194,41 @@ public class DietActivity extends AppCompatActivity {//완료
                 pictureBtn.setVisibility(View.GONE);
                 pictureTv.setVisibility(View.INVISIBLE);
 
-                Toast.makeText(getApplicationContext(), picPATH, Toast.LENGTH_SHORT).show();
-
             }
 
         });
         dlg.show();
 
+    }
+    public static String createCopyAndReturnRealPath(@NonNull Context context, @NonNull Uri uri) {
+        final ContentResolver contentResolver = context.getContentResolver();
+
+        if (contentResolver == null)
+            return null;
+        String filePath = context.getApplicationInfo().dataDir + File.separator+ System.currentTimeMillis();
+        File file = new File(filePath);
+        try {
+            InputStream inputStream = contentResolver.openInputStream(uri);
+
+            if (inputStream == null)
+                return null;
+
+            // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
+
+            OutputStream outputStream = new FileOutputStream(file);
+
+            byte[] buf = new byte[1024];
+
+            int len;
+
+            while ((len = inputStream.read(buf)) > 0)
+                outputStream.write(buf, 0, len);
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException ignore) {
+            return null;
+        }
+        return file.getAbsolutePath();
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -200,6 +237,7 @@ public class DietActivity extends AppCompatActivity {//완료
                 Uri fileUri = data.getData();
                 ContentResolver resolver = getContentResolver();
                 try {
+                    picPATH = createCopyAndReturnRealPath(this, fileUri);
                     InputStream instream = resolver.openInputStream(fileUri);
                     Bitmap imgBitmap = BitmapFactory.decodeStream(instream);
                     menuImg.setImageBitmap(imgBitmap);
@@ -354,7 +392,6 @@ public class DietActivity extends AppCompatActivity {//완료
     }
 
     void elseSen(){
-        db.execSQL("CREATE TABLE IF NOT EXISTS DIET(num INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, time TEXT, picPATH TEXT, sort INTEGER, menu TEXT, kcal INTEGER);");
         db.execSQL("INSERT INTO DIET(date, time, picPATH, sort, menu, kcal) VALUES ('" + date + "', '" + time + "', '" + picPATH + "', '" + sort + "', '" + menu + "', '" + kcal + "');");
         Toast.makeText(getApplicationContext(), "저장완료!", Toast.LENGTH_SHORT).show();
         db.close();

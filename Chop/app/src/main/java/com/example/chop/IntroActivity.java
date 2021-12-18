@@ -31,7 +31,7 @@ public class IntroActivity extends AppCompatActivity {//완료, 시간만 좀 �
                 finish();
 
             }
-        }, 7000);
+        }, 7250);
     }
 
     protected void onPause(){

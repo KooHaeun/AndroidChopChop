@@ -62,6 +62,7 @@ public class GraphActivity extends AppCompatActivity {//완료
     ArrayList<Entry> kg, waist, thigh;
     LineDataSet set;
     Spinner sortSpin;
+    int check=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,9 @@ public class GraphActivity extends AppCompatActivity {//완료
         showBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chart.clear();
+                kg = new ArrayList<>();
+                thigh = new ArrayList<>();
+                waist = new ArrayList<>();
                 try {
                     Date d1 = df.parse( sDate );
                     Date d2 = df.parse( eDate );
@@ -155,7 +158,16 @@ public class GraphActivity extends AppCompatActivity {//완료
                                 c1.add(Calendar.DATE, 1);
                                 i++;
                             }
-                            setChart(i);
+                            if(check!=0){
+                                chart.notifyDataSetChanged();
+                                setChart(i);
+                                chart.invalidate();
+                                chart.clear();
+                                check++;
+                            }
+                            else
+                                setChart(i);
+
                         }
                         else
                             showDlg1();
@@ -166,9 +178,7 @@ public class GraphActivity extends AppCompatActivity {//완료
                 }
             }
         });
-        kg = new ArrayList<>();
-        thigh = new ArrayList<>();
-        waist = new ArrayList<>();
+
     }
 
     void showDlg1(){
@@ -236,7 +246,6 @@ public class GraphActivity extends AppCompatActivity {//완료
         set.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.purple));
         set.setCircleHoleColor(ContextCompat.getColor(getApplicationContext(), R.color.purple));
 
-
         LineData lineData = new LineData();
         lineData.addDataSet(set);
 
@@ -247,7 +256,6 @@ public class GraphActivity extends AppCompatActivity {//완료
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(len, true);
         xAxis.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-        xAxis.setGridColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
 
         YAxis yAxisLeft = chart.getAxisLeft();
         yAxisLeft.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
@@ -257,7 +265,6 @@ public class GraphActivity extends AppCompatActivity {//완료
         yAxisRight.setDrawLabels(false);
         yAxisRight.setDrawAxisLine(false);
         yAxisRight.setDrawGridLines(false);
-        //y축의 활성화를 제거함
 
         chart.setVisibleXRangeMinimum(60 * 60 * 24 * 1000 * 5);
         chart.setDescription(null);

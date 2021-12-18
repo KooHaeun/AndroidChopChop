@@ -42,7 +42,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemVi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    db.close();
                     int pos = getAdapterPosition();
                     String date = data.get(pos).getDate();
                     Intent i = new Intent(v.getContext(), ResultActivity.class);
@@ -68,7 +67,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemVi
                             data.remove(pos);
                             notifyItemRemoved(pos);
                             notifyDataSetChanged();
-                            db.close();
                             Toast.makeText(v.getContext(), "삭제 완료!", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -80,7 +78,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemVi
                             View updateView = View.inflate(v.getContext(), R.layout.update_diet_dlg,null);
                             EditText menuEdit = updateView.findViewById(R.id.menuEdit);
                             EditText calEdit = updateView.findViewById(R.id.calEdit);
-
                             inDlg.setView(updateView);
                             inDlg.setTitle("식단수정");
                             inDlg.setIcon(R.mipmap.ic_launcher);
@@ -103,7 +100,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ItemVi
                                         db.execSQL("UPDATE DIET SET kcal = '"+kcal+"' WHERE date =='"+date+"' AND time =='"+time+"';");
                                         data.get(pos).setKcal(kcal);
                                     }
-                                    db.close();
                                     notifyItemChanged(pos);
                                     Toast.makeText(v.getContext(), "수정 완료!", Toast.LENGTH_SHORT).show();
                                 }
